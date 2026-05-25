@@ -1,0 +1,81 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model Key {
+  id            String   @id @default(uuid())
+  platform      String
+  apiKey        String   @unique
+  name          String?
+  models        String[] // JSON array stored as string
+  quota         Int
+  usedQuota     Int      @default(0)
+  status        String   @default("active")
+  failureCount  Int      @default(0)
+  lastChecked   DateTime?
+  createdAt     DateTime @default(now())
+  updatedAt     DateTime @updatedAt
+
+  @@index([platform])
+  @@index([status])
+}
+
+model ProxyIP {
+  id        String   @id @default(uuid())
+  ip        String
+  port      Int
+  protocol  String
+  country   String?
+  city      String?
+  isp       String?
+  latency   Int?
+  lastChecked DateTime?
+  status    String   @default("available")
+  source    String
+  createdAt DateTime @default(now())
+
+  @@index([status])
+  @@index([source])
+}
+
+model RequestLog {
+  id          String   @id @default(uuid())
+  requestId   String   @unique
+  userId      String?
+  model       String
+  platform    String
+  keyId       String
+  inputTokens Int
+  outputTokens Int
+  latency     Int
+  success     Boolean
+  error       String?
+  request     Json?
+  response    Json?
+  createdAt   DateTime @default(now())
+
+  @@index([createdAt])
+  @@index([model])
+  @@index([platform])
+}
+
+model SystemConfig {
+  key         String   @id
+  value       String
+  description String?
+  updatedAt   DateTime @updatedAt
+}
+
+model ApiToken {
+  id          String   @id @default(uuid())
+  name        String
+  token       String   @unique
+  createdAt   DateTime @default(now())
+  lastUsed    DateTime?
+  usageCount  Int      @default(0)
+}
