@@ -1,11 +1,15 @@
 # XAPI - AI API Gateway
 
-一个统一的 AI API 中转站，支持多平台模型聚合、智能路由、动态 Key 检测和代理 IP 池管理。
+🚀 **一个统一的 AI API 中转站，支持多平台适配、智能路由、实时监控和极致美观的用户界面。**
+
+[![License](https://img.shields.io/badge/license-MIT-blue.svg)](LICENSE)
+[![Node.js](https://img.shields.io/badge/node-%3E%3D18.0.0-green.svg)](package.json)
+[![Docker](https://img.shields.io/badge/docker-ready-blue.svg)](docker-compose.yml)
 
 ## ✨ 特性
 
 ### 🎯 核心功能
-- **多平台统一适配**：支持 OpenAI、Anthropic、Google Gemini、Moonshot、智谱等国内外平台
+- **多平台统一适配**：支持 OpenAI、Anthropic、Google Gemini、Moonshot、Zhipu、Qwen、Ernie、Spark 等国内外平台
 - **智能路由**：基于 Key 健康状态、剩余额度、延迟的智能选择
 - **动态 Key 检测**：每分钟自动检测 Key 可用性，支持故障转移
 - **代理 IP 池**：集成主流代理服务商，自动管理 IP 可用性
@@ -51,21 +55,58 @@ docker-compose up -d
 
 ```
 xapi/
-├── backend/          # 后端服务
+├── backend/           # 后端服务
 │   ├── src/
-│   │   ├── adapters/ # 平台适配器
-│   │   ├── core/     # 核心模块
-│   │   ├── services/ # 业务服务
-│   │   └── routes/   # API 路由
-│   └── prisma/       # 数据库模型
-├── frontend/         # 前端应用
+│   │   ├── adapters/  # 9个平台适配器
+│   │   ├── core/      # 核心模块
+│   │   ├── routes/    # API 路由
+│   │   └── utils/     # 工具函数
+│   └── prisma/        # 数据库模型
+├── frontend/          # 前端应用
 │   ├── src/
-│   │   ├── app/      # Next.js 页面
-│   │   ├── components/# React 组件
-│   │   └── lib/      # 工具库
-├── docs/             # 文档
-└── docker-compose.yml
+│   │   ├── app/       # 页面组件
+│   │   ├── components/# UI 组件
+│   │   ├── lib/       # 工具库
+│   │   └── types/     # 类型定义
+├── docs/              # 项目文档
+├── scripts/           # 部署脚本
+└── docker-compose.yml # Docker 编排
 ```
+
+## 🎯 平台支持
+
+### 已实现平台（9个）
+1. **OpenAI** - GPT-4, GPT-3.5 Turbo, GPT-4o
+2. **Anthropic** - Claude 3 系列
+3. **Google Gemini** - Gemini Pro, Flash
+4. **Moonshot** - Kimi 系列
+5. **Zhipu AI** - GLM 系列
+6. **Qwen** - 通义千问
+7. **Ernie Bot** - 文心一言
+8. **Spark** - 讯飞星火
+9. **Custom** - 通用适配器
+
+## 📖 API 文档
+
+### 聊天 API (OpenAI 兼容)
+```bash
+POST /v1/chat/completions
+Content-Type: application/json
+
+{
+  "model": "gpt-4",
+  "messages": [
+    {"role": "user", "content": "Hello!"}
+  ],
+  "stream": false
+}
+```
+
+### 管理 API
+- `GET /api/admin/keys` - 获取 Key 列表
+- `POST /api/admin/keys` - 添加 Key
+- `GET /api/admin/proxies` - 获取代理 IP 列表
+- `GET /api/metrics` - 获取监控指标
 
 ## 🔧 开发指南
 
@@ -89,28 +130,6 @@ cd backend
 npx prisma migrate dev
 npx prisma db seed
 ```
-
-## 📖 API 文档
-
-### 聊天 API (OpenAI 兼容)
-```bash
-POST /v1/chat/completions
-Content-Type: application/json
-
-{
-  "model": "gpt-4",
-  "messages": [
-    {"role": "user", "content": "Hello!"}
-  ],
-  "stream": false
-}
-```
-
-### 管理 API
-- `GET /api/admin/keys` - 获取 Key 列表
-- `POST /api/admin/keys` - 添加 Key
-- `GET /api/admin/proxies` - 获取代理 IP 列表
-- `GET /api/metrics` - 获取监控指标
 
 ## 🐳 Docker 部署
 
@@ -165,3 +184,7 @@ MIT License - 详见 [LICENSE](LICENSE) 文件
 - [Prisma](https://www.prisma.io/) - ORM 工具
 - [Next.js](https://nextjs.org/) - React 框架
 - [Prometheus](https://prometheus.io/) - 监控系统
+
+---
+
+**XAPI** - 让 AI API 集成变得简单优雅 🚀
